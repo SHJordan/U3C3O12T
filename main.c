@@ -57,6 +57,11 @@ int main() {
     return 1;
   }
 
+  printf("Digite a unidade de origem (0: metros, 1: centímetros, 2: milímetros): ");
+  if (scanf("%d", &origem) != 1 || origem < 0 || origem > 2) {
+    fprintf(stderr, "Erro: Entrada inválida.\n");
+    return 1;
+  }
 
   printf("Digite a unidade de destino (0: metros, 1: centímetros, 2: milímetros): ");
   if (scanf("%d", &destino) != 1 || destino < 0 || destino > 2) {
