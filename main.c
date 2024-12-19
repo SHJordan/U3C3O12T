@@ -4,19 +4,19 @@
 
 // Enum para representar as unidades de comprimento
 typedef enum {
-  Bits,
-  Bytes,
-  KB,
-  MB,
-  GB,
-  TB
+  Bits,   // valor como inteiro = 0
+  Bytes,  // valor como inteiro = 1
+  KB,     // 2
+  MB,     // 3
+  GB,     // 4
+  TB      // 5
 } unidade_memoria;
 
 
 // Função de conversão
 double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_memoria unidade_final);
 
-void main(){
+int main(){
   double result = converter_memoria(1, Bytes, KB);
 
   printf("resultado: %lf\n", result);
@@ -31,17 +31,20 @@ double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_m
     return -1; // Indica erro
   }
 
-  if(unidade_final == Bits){
-    addExp += 3;
-    unidade_final = Bytes;
-  }
+  // regulando os valores para conversão, pois de 1 byte = 8 bits = 2^3 bits
+    if(unidade_final == Bits){
+      addExp += 3;
+      unidade_final = Bytes;
+    }
 
-  if(unidade_origem == Bits){
-    addExp -= 3;
-    unidade_origem = Bytes;
-  }
+    if(unidade_origem == Bits){
+      addExp -= 3;
+      unidade_origem = Bytes;
+    }
 
-  expoente = (unidade_final-unidade_origem)*10 + addExp;
+  // cálculo do expoente
+    expoente = (unidade_final-unidade_origem)*10 + addExp;
+    // mesmo que [1024^(uf - uo)]*(2^addExp)
 
   resultado = valor*pow(2, expoente);
 
