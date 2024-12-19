@@ -17,14 +17,14 @@ typedef enum {
 double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_memoria unidade_final);
 
 int main(){
-  double result = converter_memoria(1, Bytes, KB);
+  double result = converter_memoria(1, Bits, GB);
 
   printf("resultado: %lf\n", result);
 }
 
 double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_memoria unidade_final){
-  int expoente = 0, addExp = 0;
-  double resultado = -1;
+  int expoente = 0;
+  double resultado = -1, bitCorrecao = 1;
   // tratamento de entradas inválidas
   if(valor < 0){
     fprintf(stderr, "Erro: Valores de quantidade de memória não podem ser negativo.\n");
@@ -33,20 +33,19 @@ double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_m
 
   // regulando os valores para conversão, pois de 1 byte = 8 bits = 2^3 bits
     if(unidade_final == Bits){
-      addExp += 3;
+      bitCorrecao *= 0.125; // 1/8 = 0,125
       unidade_final = Bytes;
     }
 
     if(unidade_origem == Bits){
-      addExp -= 3;
+      bitCorrecao *= 8;
       unidade_origem = Bytes;
     }
 
   // cálculo do expoente
-    expoente = (unidade_final-unidade_origem)*10 + addExp;
-    // mesmo que [1024^(uf - uo)]*(2^addExp)
-
-  resultado = valor*pow(2, expoente);
+    expoente = (unidade_final-unidade_origem);
+  // result = valor*1000^(uf - uo)*(correção caso tenha bits no meio: multiplica ou divide por 8)
+  resultado = valor*pow(1000, expoente)*bitCorrecao;
 
   return resultado;
   
