@@ -12,14 +12,36 @@ typedef enum {
   TB      // 5
 } unidade_memoria;
 
+const char* nomeUnidade[6] = {"Bit(s)", "Byte(s)", "KB", "MB", "GB", "TB"};
 
 // Função de conversão
 double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_memoria unidade_final);
 
 int main(){
-  double result = converter_memoria(1, Bits, GB);
+  double valor = 0, result = 0;
+  int opcao = 15;
+  unidade_memoria inUnid = Bytes, outUnid = Bytes;
 
-  printf("resultado: %lf\n", result);
+  printf("Insira o valor: ");
+  scanf("%lf", &valor);
+
+  printf("Insira uma das opcoes abaixo para a unidade de entrada:\n");
+  printf("\t[1] Bit(s)\n\t[2] Byte(s)\n\t[3] KB\n\t[4] MB\n\t[5] GB\n\t[6] TB\nEscolha: ");
+  scanf("%d", &opcao);
+  if(opcao > 0 && opcao < 7){
+    inUnid = opcao-1;
+  }
+
+  printf("Insira uma das opcoes abaixo para a unidade de saida:\n");
+  printf("\t[1] Bit(s)\n\t[2] Byte(s)\n\t[3] KB\n\t[4] MB\n\t[5] GB\n\t[6] TB\nEscolha: ");
+  scanf("%d", &opcao);
+  if(opcao > 0 && opcao < 7){
+    outUnid = opcao-1;
+  }
+
+  result = converter_memoria(valor, inUnid, outUnid);
+
+  printf("\nresultado:\n\t%lf %s = %lf %s\n", valor, nomeUnidade[inUnid], result, nomeUnidade[outUnid]);
 }
 
 double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_memoria unidade_final){
@@ -31,14 +53,14 @@ double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_m
     return -1; // Indica erro
   }
 
-  // regulando os valores para conversão, pois de 1 byte = 8 bits = 2^3 bits
+  // regulando os valores para conversão (1 byte = 8 bits)
     if(unidade_final == Bits){
-      bitCorrecao *= 0.125; // 1/8 = 0,125
+      bitCorrecao *= 8;
       unidade_final = Bytes;
     }
 
     if(unidade_origem == Bits){
-      bitCorrecao *= 8;
+      bitCorrecao *= 0.125; // 1/8 = 0,125
       unidade_origem = Bytes;
     }
 
@@ -50,6 +72,7 @@ double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_m
   return resultado;
   
 }
+
 // double converter_comprimento(double valor, unidade_comprimento unidade_origem, unidade_comprimento unidade_destino) {
 //   //Tratamento de entradas inválidas
 //   if (valor < 0) {
