@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-// Enum para representar as unidades de comprimento
+// Enum para representar as unidades de memória
 typedef enum {
   Bits,   // valor como inteiro = 0
   Bytes,  // valor como inteiro = 1
@@ -12,27 +12,29 @@ typedef enum {
   TB      // 5
 } unidade_memoria;
 
+// constanque que auxilia na representação das unidades de memória
 const char* nomeUnidade[6] = {"Bit(s)", "Byte(s)", "KB", "MB", "GB", "TB"};
 
 // Função de conversão
 double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_memoria unidade_final);
 
 int main(){
+  system("chcp 65001 > null"); //Só para aparecer as acentuações na linha de comando
   double valor = 0, result = 0;
-  int opcao = 15;
+  int opcao = -1, casasDec = 3;
   unidade_memoria inUnid = Bytes, outUnid = Bytes;
 
-  printf("Insira o valor: ");
+  printf("Insira o valor (ex: 3.58): ");
   scanf("%lf", &valor);
 
-  printf("Insira uma das opcoes abaixo para a unidade de entrada:\n");
+  printf("\nInsira um dos números abaixo para escolher a unidade de entrada:\n");
   printf("\t[1] Bit(s)\n\t[2] Byte(s)\n\t[3] KB\n\t[4] MB\n\t[5] GB\n\t[6] TB\nEscolha: ");
   scanf("%d", &opcao);
   if(opcao > 0 && opcao < 7){
     inUnid = opcao-1;
   }
 
-  printf("Insira uma das opcoes abaixo para a unidade de saida:\n");
+  printf("\nAgora escolha da mesma forma a unidade de saída:\n");
   printf("\t[1] Bit(s)\n\t[2] Byte(s)\n\t[3] KB\n\t[4] MB\n\t[5] GB\n\t[6] TB\nEscolha: ");
   scanf("%d", &opcao);
   if(opcao > 0 && opcao < 7){
@@ -41,7 +43,11 @@ int main(){
 
   result = converter_memoria(valor, inUnid, outUnid);
 
-  printf("\nresultado:\n\t%lf %s = %lf %s\n", valor, nomeUnidade[inUnid], result, nomeUnidade[outUnid]);
+  if(outUnid > inUnid){
+    casasDec *= (outUnid-inUnid);
+  }
+
+  printf("\nresultado:\n\t%.3lf %s = %.*lf %s\n", valor, nomeUnidade[inUnid], casasDec, result, nomeUnidade[outUnid]);
 }
 
 double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_memoria unidade_final){
@@ -65,48 +71,13 @@ double converter_memoria(double valor, unidade_memoria unidade_origem, unidade_m
     }
 
   // cálculo do expoente
-    expoente = (unidade_final-unidade_origem);
+    expoente = (unidade_origem-unidade_final);
   // result = valor*1000^(uf - uo)*(correção caso tenha bits no meio: multiplica ou divide por 8)
   resultado = valor*pow(1000, expoente)*bitCorrecao;
 
   return resultado;
   
 }
-
-// double converter_comprimento(double valor, unidade_comprimento unidade_origem, unidade_comprimento unidade_destino) {
-//   //Tratamento de entradas inválidas
-//   if (valor < 0) {
-//     
-//   }
-
-//   switch (unidade_origem) {
-//     case METROS:
-//       switch (unidade_destino) {
-//         case METROS: return valor;
-//         case CENTIMETROS: return valor * 100;
-//         case MILIMETROS: return valor * 1000;
-//       }
-//       break;
-//     case CENTIMETROS:
-//       switch (unidade_destino) {
-//         case METROS: return valor / 100;
-//         case CENTIMETROS: return valor;
-//         case MILIMETROS: return valor * 10;
-//       }
-//       break;
-//     case MILIMETROS:
-//       switch (unidade_destino) {
-//         case METROS: return valor / 1000;
-//         case CENTIMETROS: return valor / 10;
-//         case MILIMETROS: return valor;
-//       }
-//       break;
-//   }
-
-//   fprintf(stderr, "Erro: Combinação de unidades inválida.\n");
-//   return -1; // Indica erro
-// }
-
 
 // int main() {
 //   system("chcp 65001 > null"); //Só para aparecer as acentuações na linha de comando
