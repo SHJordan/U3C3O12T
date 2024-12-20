@@ -121,3 +121,6 @@ fabric.properties
 /.idea/modules.xml
 /.idea/U3C3O12T.iml
 /.idea/vcs.xml
+
+output
+a.exe
