@@ -91,13 +91,13 @@ void converterTemperatura(int opcao, float *celsius, float *kelvin, float *fahre
         case 1:
             printf("\nDigite a temperatura em Celsius: ");
             scanf("%f", celsius);
-            *kelvin = *celsius + 273.15;
+            *kelvin = *celsius + 273.15f;
             printf("\nTemperatura em Kelvin: %.2f\n", *kelvin);
             break;
         case 2:
             printf("\nDigite a temperatura em Celsius: ");
             scanf("%f", celsius);
-            *fahrenheit = *celsius * 1.8 + 32;
+            *fahrenheit = *celsius * 1.8f + 32;
             printf("\nTemperatura em Fahrenheit: %.2f\n", *fahrenheit);
             break;
         // Adicione os outros casos de conversão de temperatura aqui...
@@ -112,7 +112,7 @@ void converterTemperatura(int opcao, float *celsius, float *kelvin, float *fahre
 
 void converterVelocidade() {
     int opcao;
-    float velocidadeInicial = 0.0;
+    float velocidadeInicial = 0.0f;
     int unidadeFinal = 0;
     printf("\nSelecione a Unidade da Velocidade Atual:\n1 - Km/h\n2 - M/s\n3 - Mph\n");
     scanf("%d", &opcao);
@@ -228,7 +228,7 @@ int main() {
 
     // Conversão de memória
     double valor_memoria;
-    int opcao_mem, unidade_origem_mem, unidade_destino_mem;
+    int unidade_origem_mem, unidade_destino_mem;
 
     printf("Digite o valor de memória: ");
     if (scanf("%lf", &valor_memoria) != 1 || valor_memoria < 0) {
@@ -282,7 +282,7 @@ int main() {
 
 
     // Conversão de temperatura
-    float celsius = 0.0, fahrenheit = 0.0, kelvin = 0.0;
+    float celsius = 0.0f, fahrenheit = 0.0f, kelvin = 0.0f;
     int opcao_temp;
     do {
         printf("\nConverter:\n"
