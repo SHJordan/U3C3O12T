@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#define clear() printf("\033[H\033[J")
 
 // Enum para representar as unidades de comprimento
 typedef enum {
@@ -107,6 +108,59 @@ void converterTemperatura(int opcao, float *celsius, float *kelvin, float *fahre
             printf("Opção inválida!\n");
     }
 }
+
+
+void converterVelocidade() {
+    int opcao;
+    float velocidadeInicial = 0.0;
+    int unidadeFinal = 0;
+    printf("\nSelecione a Unidade da Velocidade Atual:\n1 - Km/h\n2 - M/s\n3 - Mph\n");
+    scanf("%d", &opcao);
+    switch (opcao) {
+        case 1:
+            printf("\nDigite a velocidade em Km/h:\n");
+            scanf("%f", &velocidadeInicial);
+            printf("\nSelecione a Unidade de Velocidade Destino:\n1 - M/s\n2 - Mph\n");
+            scanf("%d", &unidadeFinal);
+            if (unidadeFinal == 1) {
+                printf("\nA velocidade em M/s é: %f", (velocidadeInicial / 3.6));
+            } else if (unidadeFinal == 2) {
+                printf("\nA velocidade em Mph é: %f", (velocidadeInicial / 1.609));
+            } else {
+                printf("\nOpção inválida!\n");
+            }
+            break;
+        case 2:
+            printf("\nDigite a velocidade em M/s:\n");
+            scanf("%f", &velocidadeInicial);
+            printf("\nSelecione a Unidade de Velocidade Destino:\n1 - Km/h\n2 - Mph\n");
+            scanf("%d", &unidadeFinal);
+            if (unidadeFinal == 1) {
+                printf("\nA velocidade em Km/h é: %f", (velocidadeInicial * 3.6));
+            } else if (unidadeFinal == 2) {
+                printf("\nA velocidade em Mph é: %f", (velocidadeInicial * 2.23694));
+            } else {
+                printf("\nOpção inválida!\n");
+            }
+            break;
+        case 3:
+            printf("\nDigite a velocidade em Mph:\n");
+            scanf("%f", &velocidadeInicial);
+            printf("\nSelecione a Unidade de Velocidade Destino:\n1 - Km/h\n2 - M/s\n");
+            scanf("%d", &unidadeFinal);
+            if (unidadeFinal == 1) {
+                printf("\nA velocidade em Km/h é: %f", (velocidadeInicial * 1.609));
+            } else if (unidadeFinal == 2) {
+                printf("\nA velocidade em M/s é: %f", (velocidadeInicial / 2.23694));
+            } else {
+                printf("\nOpção inválida!\n");
+            }
+            break;
+        default:
+            printf("\nOpção inválida!\n");
+    }
+}
+
 
 // Função para conversão de unidades de tempo
 double converter_tempo(double valor, unidade_tempo unidade_origem, unidade_tempo unidade_destino) {
