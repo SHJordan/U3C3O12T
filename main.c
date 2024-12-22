@@ -20,8 +20,17 @@ typedef enum {
     TB      // 5
 } unidade_memoria;
 
-// constante que auxilia na representação das unidades de memória
+// Enum para representar as unidades de tempo
+typedef enum {
+	SEGUNDOS,
+	MINUTOS,
+	HORAS
+} unidade_tempo;
+
+// constantes que auxiliam na representação das unidades de memória e tempo
 const char *nomeUnidade[] = {"Bit(s)", "Byte(s)", "KB", "MB", "GB", "TB"};
+const char *nomeUnidadeTempo[] = {"segundo(s)", "minuto(s)", "hora(s)"};
+
 
 
 // Função de conversão de comprimento
@@ -100,6 +109,7 @@ void converterTemperatura(int opcao, float *celsius, float *kelvin, float *fahre
     }
 }
 
+
 void converterVelocidade() {
     int opcao;
     float velocidadeInicial = 0.0;
@@ -151,6 +161,39 @@ void converterVelocidade() {
     }
 }
 
+
+// Função para conversão de unidades de tempo
+double converter_tempo(double valor, unidade_tempo unidade_origem, unidade_tempo unidade_destino) {
+    if (valor < 0) {
+        fprintf(stderr, "Erro: Medida de tempo  não pode ser negativa.\n");
+        return -1;
+    }
+    switch (unidade_origem) {
+        case SEGUNDOS:
+            switch (unidade_destino) {
+                case SEGUNDOS: return valor;
+                case MINUTOS: return valor / 60.0;
+                case HORAS: return valor / 3600.0;
+            }
+            break;
+        case MINUTOS:
+            switch (unidade_destino) {
+                case SEGUNDOS: return valor * 60;
+                case MINUTOS: return valor;
+                case HORAS: return valor / 60.0;
+            }
+            break;
+        case HORAS:
+            switch (unidade_destino) {
+                case SEGUNDOS: return valor * 3600;
+                case MINUTOS: return valor * 60;
+                case HORAS: return valor;
+            }
+            break;
+    }
+    fprintf(stderr, "Erro: Combinação de unidades inválida.\n");
+    return -1;
+}
 
 int main() {
     system("chcp 65001 > null"); // Só para acentuação
@@ -210,6 +253,32 @@ int main() {
         printf("Resultado memória: %.2lf %s\n", resultado_memoria, nomeUnidade[unidade_destino_mem]);
     }
 
+	// Conversão de tempo
+	double valor_tempo;
+    int origem_temp, destino_temp;
+
+    printf("Digite a medida de tempo: ");
+    if (scanf("%lf", &valor_tempo) != 1) {
+        fprintf(stderr, "Erro: Entrada inválida.\n");
+        return 1;
+    }
+
+    printf("Digite a unidade de origem (0: segundos, 1: minutos, 2: horas): ");
+    if (scanf("%d", &origem_temp) != 1 || origem_temp < 0 || origem_temp > 2) {
+        fprintf(stderr, "Erro: Entrada inválida.\n");
+        return 1;
+    }
+
+    printf("Digite a unidade de destino (0: segundos, 1: minutos, 2: horas): ");
+    if (scanf("%d", &destino_temp) != 1 || destino_temp < 0 || destino_temp > 2) {
+        fprintf(stderr, "Erro: Entrada inválida.\n");
+        return 1;
+    }
+
+    double resultado_tempo = converter_tempo(valor_tempo, origem_temp, destino_temp);
+    if (resultado_tempo != -1) {
+        printf("Resultado tempo: %lf %s em %s são %lf %s \n", valor_tempo, nomeUnidadeTempo[origem_temp], nomeUnidadeTempo[destino_temp], resultado_tempo, nomeUnidadeTempo[destino_temp]);
+    }
 
 
     // Conversão de temperatura
