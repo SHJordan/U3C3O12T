@@ -362,3 +362,79 @@ int main() {
 
     return 0;
 }
+#include <stdio.h>
+
+void menu() {
+    printf("=== Conversor de Unidades de Área ===\n");
+    printf("1. Metros quadrados para centímetros quadrados\n");
+    printf("2. Centímetros quadrados para metros quadrados\n");
+    printf("3. Metros quadrados para milímetros quadrados\n");
+    printf("4. Milímetros quadrados para metros quadrados\n");
+    printf("5. Metros quadrados para quilômetros quadrados\n");
+    printf("6. Quilômetros quadrados para metros quadrados\n");
+    printf("7. Sair\n");
+    printf("Escolha uma opção: ");
+}
+
+int main() {
+    int opcao;
+    double valor, resultado;
+
+    do {
+        menu();
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("Digite o valor em metros quadrados: ");
+                scanf("%lf", &valor);
+                resultado = valor * 10000; // 1 m² = 10,000 cm²
+                printf("%.2lf metros quadrados equivalem a %.2lf centímetros quadrados.\n\n", valor, resultado);
+                break;
+
+            case 2:
+                printf("Digite o valor em centímetros quadrados: ");
+                scanf("%lf", &valor);
+                resultado = valor / 10000; // 1 cm² = 0.0001 m²
+                printf("%.2lf centímetros quadrados equivalem a %.2lf metros quadrados.\n\n", valor, resultado);
+                break;
+
+            case 3:
+                printf("Digite o valor em metros quadrados: ");
+                scanf("%lf", &valor);
+                resultado = valor * 1000000; // 1 m² = 1,000,000 mm²
+                printf("%.2lf metros quadrados equivalem a %.2lf milímetros quadrados.\n\n", valor, resultado);
+                break;
+
+            case 4:
+                printf("Digite o valor em milímetros quadrados: ");
+                scanf("%lf", &valor);
+                resultado = valor / 1000000; // 1 mm² = 0.000001 m²
+                printf("%.2lf milímetros quadrados equivalem a %.2lf metros quadrados.\n\n", valor, resultado);
+                break;
+
+            case 5:
+                printf("Digite o valor em metros quadrados: ");
+                scanf("%lf", &valor);
+                resultado = valor / 1000000; // 1 m² = 0.000001 km²
+                printf("%.2lf metros quadrados equivalem a %.6lf quilômetros quadrados.\n\n", valor, resultado);
+                break;
+
+            case 6:
+                printf("Digite o valor em quilômetros quadrados: ");
+                scanf("%lf", &valor);
+                resultado = valor * 1000000; // 1 km² = 1,000,000 m²
+                printf("%.6lf quilômetros quadrados equivalem a %.2lf metros quadrados.\n\n", valor, resultado);
+                break;
+
+            case 7:
+                printf("Saindo do programa.\n");
+                break;
+
+            default:
+                printf("Opção inválida! Tente novamente.\n\n");
+        }
+    } while (opcao != 7);
+
+    return 0;
+}
