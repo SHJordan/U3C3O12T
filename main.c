@@ -27,6 +27,12 @@ typedef enum {
 	HORAS
 } unidade_tempo;
 
+typedef enum {
+  QUILOS,
+  GRAMA,
+  TONELADA
+} unidade_massa;
+
 // constantes que auxiliam na representação das unidades de memória e tempo
 const char *nomeUnidade[] = {"Bit(s)", "Byte(s)", "KB", "MB", "GB", "TB"};
 const char *nomeUnidadeTempo[] = {"segundo(s)", "minuto(s)", "hora(s)"};
@@ -237,6 +243,41 @@ void converter_potencia(int opc, double valor){
 
 }
 
+double converter_massa(double valor, unidade_massa unidade_origem, unidade_massa unidade_destino) {
+  //Tratamento de entradas inválidas
+  if (valor < 0) {
+    fprintf(stderr, "Valor de masssa não pode ser negativo!\n");
+    return -1; // Indica erro
+  }
+
+  switch (unidade_origem) {
+    case TONELADA:
+      switch (unidade_destino) {
+        case TONELADA: return valor;
+        case QUILOS: return valor * 1000;
+        case GRAMA: return valor * 1000000;
+      }
+      break;
+    case QUILOS:
+      switch (unidade_destino) {
+        case TONELADA: return valor / 1000;
+        case QUILOS: return valor;
+        case GRAMA: return valor * 1000;
+      }
+      break;
+    case GRAMA:
+      switch (unidade_destino) {
+        case TONELADA: return valor / 1000000;
+        case QUILOS: return valor / 1000;
+        case GRAMA: return valor;
+      }
+      break;
+  }
+
+  fprintf(stderr, "Erro: Combinação de unidades inválida.\n");
+  return -1; // Indica erro
+}
+
 
 int main() {
     system("chcp 65001 > null"); // Só para acentuação
@@ -359,6 +400,33 @@ int main() {
             printf("Opção Inválida!\n");
         }
     } while (opc_p != 4);
+
+    double valor;
+  int origem, destino;
+
+  printf("Digite o valor de massa: ");
+  if (scanf("%lf", &valor) != 1) {
+    fprintf(stderr, "Erro: Entrada inválida.\n");
+    return 1;
+  }
+
+  printf("Digite a unidade de origem (0: toneladas, 1: quilos, 2: grama): ");
+  if (scanf("%d", &origem) != 1 || origem < 0 || origem > 2) {
+    fprintf(stderr, "Erro: Entrada inválida.\n");
+    return 1;
+  }
+
+  printf("Digite a unidade de destino (0: toneladas, 1: quilos, 2: grama): ");
+  if (scanf("%d", &destino) != 1 || destino < 0 || destino > 2) {
+    fprintf(stderr, "Erro: Entrada inválida.\n");
+    return 1;
+  }
+
+  double resultado = converter_massa(valor, origem, destino);
+
+  if (resultado != -1) {
+    printf("Resultado: %.2lf\n", resultado);
+  }
 
     return 0;
 }
