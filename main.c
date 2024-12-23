@@ -195,6 +195,49 @@ double converter_tempo(double valor, unidade_tempo unidade_origem, unidade_tempo
     return -1;
 }
 
+// Função para conversão de Watts, kwatts e cv
+void converter_potencia(int opc, double valor){
+
+    double valorW, valorkW, valorHP; //Valores em diferentes escalas
+
+
+    // opc1 define qual o tipo de conversão que deseja
+    printf("Aqui está sua medida em diferentes unidades:\n");
+
+    switch (opc)
+    {
+        case 1: // Valor dado está em watts
+
+           valorW = valor;
+           valorkW = valor / 1000.0;
+           valorHP = valor / 735.5;
+
+            break;
+
+        case 2: // Valor dado está em kwatts
+
+            valorW = valor * 1000.0;
+            valorkW = valor;
+            valorHP = valorW / 735.5;          
+           
+            break;
+
+        case 3: // Valor dado está em Horse Power
+            
+            valorW = valor * 735.5;
+            valorkW = valorW /1000.0;
+            valorHP = valor;
+
+            break;
+    }
+
+     printf("\n%.lf W\n", valorW);   
+     printf("%.2lf kW\n", valorkW);
+     printf("%.2lf cv\n", valorHP);
+
+}
+
+
 int main() {
     system("chcp 65001 > null"); // Só para acentuação
 
@@ -296,6 +339,26 @@ int main() {
         scanf("%d", &opcao_temp);
         converterTemperatura(opcao_temp, &celsius, &kelvin, &fahrenheit);
     } while (opcao_temp != 7);
+
+    //conversor de potênca
+    double potencia;
+    int opc_p = 0;
+    
+     do {
+        printf("\nBem-vindo ao conversor de potência! O seu valor está em qual das escalas abaixo:\n");
+        printf("1 - Watts\n2 - Kilowatts\n3 - Cavalos-vapor (Horse Power!)\n4 - Não quero fazer esta conversão\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opc_p);
+
+        if (opc_p == 1 || opc_p == 2 || opc_p == 3) {
+            printf("Digite o valor numérico:\n");
+            scanf("%lf", &potencia); 
+
+            converter_potencia(opc_p, potencia); 
+        } else if (opc_p != 4) {
+            printf("Opção Inválida!\n");
+        }
+    } while (opc_p != 4);
 
     return 0;
 }
