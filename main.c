@@ -428,5 +428,59 @@ int main() {
     printf("Resultado: %.2lf\n", resultado);
   }
 
+// Funções de conversão
+
+// Litros para Mililitros
+double litrosParaMililitros(double litros) {
+    return litros * 1000;
+}
+
+// Mililitros para Litros
+double mililitrosParaLitros(double mililitros) {
+    return mililitros / 1000;
+}
+
+// Metros Cúbicos para Litros
+double metrosCubicosParaLitros(double metrosCubicos) {
+    return metrosCubicos * 1000;
+}
+
+// Litros para Metros Cúbicos
+double litrosParaMetrosCubicos(double litros) {
+    return litros / 1000;
+}
+
+int main() {
+    double valor;
+    int escolha;
+
+    printf("Conversor de Unidades de Volume\n");
+    printf("1. Litros para Mililitros\n");
+    printf("2. Mililitros para Litros\n");
+    printf("3. Metros Cubicos para Litros\n");
+    printf("4. Litros para Metros Cubicos\n");
+    printf("Escolha a conversao (1-4): ");
+    scanf("%d", &escolha);
+
+    printf("Digite o valor: ");
+    scanf("%lf", &valor);
+
+    switch (escolha) {
+        case 1:
+            printf("%.2lf litros equivalem a %.2lf mililitros\n", valor, litrosParaMililitros(valor));
+            break;
+        case 2:
+            printf("%.2lf mililitros equivalem a %.2lf litros\n", valor, mililitrosParaLitros(valor));
+            break;
+        case 3:
+            printf("%.2lf metros cubicos equivalem a %.2lf litros\n", valor, metrosCubicosParaLitros(valor));
+            break;
+        case 4:
+            printf("%.2lf litros equivalem a %.2lf metros cubicos\n", valor, litrosParaMetrosCubicos(valor));
+            break;
+        default:
+            printf("Escolha invalida.\n");
+    }
+
     return 0;
 }
