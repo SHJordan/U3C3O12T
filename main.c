@@ -37,6 +37,11 @@ typedef enum {
 const char *nomeUnidade[] = {"Bit(s)", "Byte(s)", "KB", "MB", "GB", "TB"};
 const char *nomeUnidadeTempo[] = {"segundo(s)", "minuto(s)", "hora(s)"};
 
+typedef enum {
+  LITROS,
+  MILILITROS,
+  METROCUBICO
+} unidade_volume;
 
 
 // Função de conversão de comprimento
@@ -428,59 +433,37 @@ int main() {
     printf("Resultado: %.2lf\n", resultado);
   }
 
-// Funções de conversão
-
-// Litros para Mililitros
-double litrosParaMililitros(double litros) {
-    return litros * 1000;
+double converter_volume(double valor, unidade_volume unidade_origem, unidade_volume unidade_destino) {
+  //Tratamento de entradas inválidas
+  if (valor < 0) {
+    fprintf(stderr, "Valor de volume não pode ser negativo!\n");
+    return -1; // Indica erro
+  }
+  switch (unidade_origem) {
+    case LITROS:
+      switch (unidade_destino) {        
+        case LITROS: return valor;
+        case MILILITROS: return valor * 1000;
+        case METROCUBICO: return valor / 1000;
+      }
+      break;
+    case MILILITROS:
+      switch (unidade_destino) {
+        case LITROS: return valor / 1000;
+        case MILILITROS: return valor;
+        case METROCUBICO: return valor * 1e-6; // 1 mililitro é igual a 1 × 10^-6 metros cúbicos
+      }
+      break;
+    case METROCUBICO:
+      switch (unidade_destino) {
+        case LITROS: return valor * 1000;
+        case MILILITROS: return valor * 1e6; // 1 metro cúbico é igual a 1 × 10^6 mililitros
+        case METROCUBICO: return valor;
+      }
+      break;
+  }
+  fprintf(stderr, "Erro: Combinação de unidades inválida.\n");
+  return -1; // Indica erro
 }
-
-// Mililitros para Litros
-double mililitrosParaLitros(double mililitros) {
-    return mililitros / 1000;
-}
-
-// Metros Cúbicos para Litros
-double metrosCubicosParaLitros(double metrosCubicos) {
-    return metrosCubicos * 1000;
-}
-
-// Litros para Metros Cúbicos
-double litrosParaMetrosCubicos(double litros) {
-    return litros / 1000;
-}
-
-int main() {
-    double valor;
-    int escolha;
-
-    printf("Conversor de Unidades de Volume\n");
-    printf("1. Litros para Mililitros\n");
-    printf("2. Mililitros para Litros\n");
-    printf("3. Metros Cubicos para Litros\n");
-    printf("4. Litros para Metros Cubicos\n");
-    printf("Escolha a conversao (1-4): ");
-    scanf("%d", &escolha);
-
-    printf("Digite o valor: ");
-    scanf("%lf", &valor);
-
-    switch (escolha) {
-        case 1:
-            printf("%.2lf litros equivalem a %.2lf mililitros\n", valor, litrosParaMililitros(valor));
-            break;
-        case 2:
-            printf("%.2lf mililitros equivalem a %.2lf litros\n", valor, mililitrosParaLitros(valor));
-            break;
-        case 3:
-            printf("%.2lf metros cubicos equivalem a %.2lf litros\n", valor, metrosCubicosParaLitros(valor));
-            break;
-        case 4:
-            printf("%.2lf litros equivalem a %.2lf metros cubicos\n", valor, litrosParaMetrosCubicos(valor));
-            break;
-        default:
-            printf("Escolha invalida.\n");
-    }
-
     return 0;
 }
