@@ -36,47 +36,6 @@ double converter_area(double valor, unidade_area unidade_origem, unidade_area un
     return -1; // Indica erro
 }
 
-int main() {
-    // Variáveis para o valor da área e as unidades de origem e destino
-    double valor_area;
-    int origem_area, destino_area;
-
-    // Leitura do valor de área
-    printf("Digite o valor de área: ");
-    if (scanf("%lf", &valor_area) != 1) {
-        fprintf(stderr, "Erro: Entrada inválida para o valor da área.\n");
-        return 1; // Retorna 1 se a entrada for inválida
-    }
-
-    // Verificação do valor de área não ser negativo
-    if (valor_area < 0) {
-        fprintf(stderr, "Erro: O valor de área não pode ser negativo.\n");
-        return 1;
-    }
-
-    // Leitura da unidade de origem
-    printf("Digite a unidade de origem (0: metros quadrados, 1: centímetros quadrados): ");
-    if (scanf("%d", &origem_area) != 1 || (origem_area != METRO_QUADRADO && origem_area != CENTIMETRO_QUADRADO)) {
-        fprintf(stderr, "Erro: Unidade de origem inválida. Use 0 para metros quadrados ou 1 para centímetros quadrados.\n");
-        return 1;
-    }
-
-    // Leitura da unidade de destino
-    printf("Digite a unidade de destino (0: metros quadrados, 1: centímetros quadrados): ");
-    if (scanf("%d", &destino_area) != 1 || (destino_area != METRO_QUADRADO && destino_area != CENTIMETRO_QUADRADO)) {
-        fprintf(stderr, "Erro: Unidade de destino inválida. Use 0 para metros quadrados ou 1 para centímetros quadrados.\n");
-        return 1;
-    }
-
-    // Conversão da área
-    double resultado_area = converter_area(valor_area, origem_area, destino_area);
-    if (resultado_area != -1) {
-        printf("Resultado da conversão de área: %.2lf\n", resultado_area);
-    }
-
-    return 0;
-}
-
 // Enum para representar as unidades de comprimento
 typedef enum {
     METROS,
@@ -540,5 +499,41 @@ int main() {
     printf("Resultado: %.2lf\n", resultado);
   }
 
+	// Variáveis para o valor da área e as unidades de origem e destino
+    double valor_area;
+    int origem_area, destino_area;
+
+    // Leitura do valor de área
+    printf("Digite o valor de área: ");
+    if (scanf("%lf", &valor_area) != 1) {
+        fprintf(stderr, "Erro: Entrada inválida para o valor da área.\n");
+        return 1; // Retorna 1 se a entrada for inválida
+    }
+
+    // Verificação do valor de área não ser negativo
+    if (valor_area < 0) {
+        fprintf(stderr, "Erro: O valor de área não pode ser negativo.\n");
+        return 1;
+    }
+
+    // Leitura da unidade de origem
+    printf("Digite a unidade de origem (0: metros quadrados, 1: centímetros quadrados): ");
+    if (scanf("%d", &origem_area) != 1 || (origem_area != METRO_QUADRADO && origem_area != CENTIMETRO_QUADRADO)) {
+        fprintf(stderr, "Erro: Unidade de origem inválida. Use 0 para metros quadrados ou 1 para centímetros quadrados.\n");
+        return 1;
+    }
+
+    // Leitura da unidade de destino
+    printf("Digite a unidade de destino (0: metros quadrados, 1: centímetros quadrados): ");
+    if (scanf("%d", &destino_area) != 1 || (destino_area != METRO_QUADRADO && destino_area != CENTIMETRO_QUADRADO)) {
+        fprintf(stderr, "Erro: Unidade de destino inválida. Use 0 para metros quadrados ou 1 para centímetros quadrados.\n");
+        return 1;
+    }
+
+    // Conversão da área
+    double resultado_area = converter_area(valor_area, origem_area, destino_area);
+    if (resultado_area != -1) {
+        printf("Resultado da conversão de área: %.2lf\n", resultado_area);
+    }
     return 0;
 }
