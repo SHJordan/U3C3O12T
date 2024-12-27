@@ -283,6 +283,39 @@ double converter_massa(double valor, unidade_massa unidade_origem, unidade_massa
   return -1; // Indica erro
 }
 
+double converter_volume(double valor, unidade_volume unidade_origem, unidade_volume unidade_destino) {
+    //Tratamento de entradas inválidas
+    if (valor < 0) {
+        fprintf(stderr, "Valor de volume não pode ser negativo!\n");
+        return -1; // Indica erro
+    }
+    switch (unidade_origem) {
+        case LITROS:
+            switch (unidade_destino) {
+                case LITROS: return valor;
+                case MILILITROS: return valor * 1000;
+                case METROCUBICO: return valor / 1000;
+            }
+        break;
+        case MILILITROS:
+            switch (unidade_destino) {
+                case LITROS: return valor / 1000;
+                case MILILITROS: return valor;
+                case METROCUBICO: return valor * 1e-6; // 1 mililitro é igual a 1 × 10^-6 metros cúbicos
+            }
+        break;
+        case METROCUBICO:
+            switch (unidade_destino) {
+                case LITROS: return valor * 1000;
+                case MILILITROS: return valor * 1e6; // 1 metro cúbico é igual a 1 × 10^6 mililitros
+                case METROCUBICO: return valor;
+            }
+        break;
+    }
+    fprintf(stderr, "Erro: Combinação de unidades inválida.\n");
+    return -1; // Indica erro
+}
+
 
 int main() {
     system("chcp 65001 > null"); // Só para acentuação
@@ -433,37 +466,5 @@ int main() {
     printf("Resultado: %.2lf\n", resultado);
   }
 
-double converter_volume(double valor, unidade_volume unidade_origem, unidade_volume unidade_destino) {
-  //Tratamento de entradas inválidas
-  if (valor < 0) {
-    fprintf(stderr, "Valor de volume não pode ser negativo!\n");
-    return -1; // Indica erro
-  }
-  switch (unidade_origem) {
-    case LITROS:
-      switch (unidade_destino) {        
-        case LITROS: return valor;
-        case MILILITROS: return valor * 1000;
-        case METROCUBICO: return valor / 1000;
-      }
-      break;
-    case MILILITROS:
-      switch (unidade_destino) {
-        case LITROS: return valor / 1000;
-        case MILILITROS: return valor;
-        case METROCUBICO: return valor * 1e-6; // 1 mililitro é igual a 1 × 10^-6 metros cúbicos
-      }
-      break;
-    case METROCUBICO:
-      switch (unidade_destino) {
-        case LITROS: return valor * 1000;
-        case MILILITROS: return valor * 1e6; // 1 metro cúbico é igual a 1 × 10^6 mililitros
-        case METROCUBICO: return valor;
-      }
-      break;
-  }
-  fprintf(stderr, "Erro: Combinação de unidades inválida.\n");
-  return -1; // Indica erro
-}
     return 0;
 }
